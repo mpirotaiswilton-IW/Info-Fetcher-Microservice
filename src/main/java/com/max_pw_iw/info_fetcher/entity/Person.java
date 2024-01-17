@@ -7,39 +7,33 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.annotation.JsonValue;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "person")
+@Table(name = "people_table")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonPropertyOrder({"id","firstName","lastName","age","sex"})
 public class Person {
     
     @Id
-	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonValue()
 	private long id;
 
-	@Column(nullable = false, unique = true)
+	@Column(name = "first_name")
 	private String firstName;
 
-	@Column(nullable = false, unique = true)
+	@Column(name = "last_name")
 	private String lastName;
 
-	@Column(nullable = false, unique = true)
+	@Column(name = "age")
 	private int age;
 
-	@Column(nullable = false, unique = true)
+	@Column(name = "sex")
 	private String sex;
 
 }

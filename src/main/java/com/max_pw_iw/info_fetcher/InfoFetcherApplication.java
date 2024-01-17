@@ -1,14 +1,14 @@
 package com.max_pw_iw.info_fetcher;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.fasterxml.jackson.databind.MappingIterator;
-import com.fasterxml.jackson.dataformat.csv.CsvMapper;
-import com.max_pw_iw.info_fetcher.constants.PathConstants;
 import com.max_pw_iw.info_fetcher.entity.Person;
 import com.max_pw_iw.info_fetcher.repository.PersonRepository;
 
@@ -26,10 +26,29 @@ public class InfoFetcherApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
-		MappingIterator<Person> personIter = new CsvMapper().readerWithTypedSchemaFor(Person.class).readValues(PathConstants.CSV_PATH);
-		List<Person> people = personIter.readAll();
-		personRepository.deleteAll();
+		List<Person> people = new ArrayList<Person>();
+
+		ClassLoader classLoader = getClass().getClassLoader();
+
+		try (Scanner scanner = new Scanner(new File("/opt/app/data/Mock_data.csv"))) {
+			while (scanner.hasNextLine()) {
+				people.add(getPersonFromLine(scanner.nextLine()));
+			}
+		}
+
 		personRepository.saveAll(people);
 	}
 
+
+	private Person getPersonFromLine(String line) {
+		Person value = new Person();
+		String[] values = line.split(",");
+		value.setId(Long.parseLong(values[0]));
+		value.setFirstName(values[1]);
+		value.setLastName(values[2]);
+		value.setAge(Integer.parseInt(values[3]));
+		value.setSex(values[4]);
+
+		return value;
+	}
 }
