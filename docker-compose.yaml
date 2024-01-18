@@ -9,7 +9,7 @@ services:
       environment:
         SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/admin
         SPRING_DATASOURCE_USERNAME: admin
-        SPRING_DATASOURCE_PASSWORD: naughts&passwords
+        SPRING_DATASOURCE_PASSWORD: pass
         SPRING_JPA_HIBERNATE_DDL_AUTO: update
       ports:
         - "8080:8080"
@@ -21,7 +21,7 @@ services:
       container_name: db
       environment:
         POSTGRES_USER: admin
-        POSTGRES_PASSWORD: naughts&passwords
+        POSTGRES_PASSWORD: pass
       volumes:
         - db:/var/lib/postgresql/data
 volumes:
