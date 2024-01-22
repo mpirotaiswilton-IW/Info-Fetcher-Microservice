@@ -59,7 +59,7 @@ services:
       KONG_PG_PASSWORD: kongpass
       KONG_PASSWORD: test
     depends_on:
-      - kong-db
+      - kong-database
     
   kong-gateway:
     image: kong/kong-gateway:3.5.0.1
