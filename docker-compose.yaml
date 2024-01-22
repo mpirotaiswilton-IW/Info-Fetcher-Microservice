@@ -37,7 +37,7 @@ services:
       - "5050:80"
     depends_on:
       - db
-      - kong-database
+      - kong-db
 
   kong-database:
     image: postgres:13
@@ -59,7 +59,7 @@ services:
       KONG_PG_PASSWORD: kongpass
       KONG_PASSWORD: test
     depends_on:
-      - kong-database
+      - kong-db
     
   kong-gateway:
     image: kong/kong-gateway:3.5.0.1
@@ -87,7 +87,7 @@ services:
       - 8445:8445
     depends_on:
       - kong-migration
-      
+
   kong-services-init:
     build:
       context: ./kong/
