@@ -110,7 +110,7 @@ Using a web browser of choice, head to <http://localhost:8002/>. You should have
 
 #### Cleaning up Exited Containers
 
-At this point, there are 2 container which are no longer running: `kong-migration` and `service-init`. These container has only ran to initialize and populate the Kong API gateway. To remove these exited containers, run the following command in a seperate CLI window: 
+At this point, there are 2 container which are no longer running: `kong-migration` and `service-init`. These containers have only ran to initialize and populate the Kong API gateway. To remove these exited containers, run the following command in a seperate CLI window: 
 ```
 docker container prune -f
 ```
@@ -118,6 +118,8 @@ docker container prune -f
 ## Kong API Gateway
 
 While we can access the microservice through the local host on port 8080, we want to access our API through the Kong API Gateway too. Fortunately, the `service-init` container has already populated the service and routes to access our microservice with the Kong Gateway.
+
+Using a web browser of choice, head to <http://localhost:8002/default/services>. You should see a list of services under the `default` workspace and a service called `PeoplePerson-Get`. If you click on that item of the list then select the `Routes` tab, you should see a list of routes connected to the service and a route called `PeoplePerson-GetRoute`.
 
 ## Testing the Microservice
 
