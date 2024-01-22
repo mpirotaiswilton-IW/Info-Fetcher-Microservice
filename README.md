@@ -34,7 +34,11 @@ This Github repository contains a Springboot Microservice with a Postgres Databa
 2. Run the following command to build a .jar application file of the microservice: 
 
 ```
+<# Linux/MacOs #>
 ./mvnw clean package -DskipTests
+
+<# Windows #>
+.\mvnw clean package -DskipTests
 ```
 3. If the build is a success, it should be indicated in your CLI. If it is successful, run this command to deploy it:
 
