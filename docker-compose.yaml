@@ -37,7 +37,7 @@ services:
       - "5050:80"
     depends_on:
       - db
-      - kong-db
+      - kong-database
 
   kong-database:
     image: postgres:13
