@@ -29,7 +29,7 @@ This Github repository contains a Springboot Microservice with a Postgres Databa
 
 ## Running the Microservice
 
-1. Using a Command Line Interface used to run Docker and docker-compose commands, change directory to the downloaded/cloned repository
+1. Using a Command Line Interface of your choosing, change directory to the downloaded/cloned repository
 
 2. Run the following command to build a .jar application file of the microservice: 
 
