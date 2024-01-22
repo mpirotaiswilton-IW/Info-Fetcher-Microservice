@@ -31,7 +31,12 @@ This Github repository contains a Springboot Microservice with a Postgres Databa
 
 1. Using a Command Line Interface used to run Docker and docker-compose commands, change directory to the downloaded/cloned repository
 
-2. Run the following command: 
+2. Run the following command to build a .jar application file of the microservice: 
+
+```
+./mvnw clean package -DskipTests
+```
+3. If the build is a success, it should be indicated in your CLI. If it is successful, run this command to deploy it:
 
 ```
 docker-compose up
