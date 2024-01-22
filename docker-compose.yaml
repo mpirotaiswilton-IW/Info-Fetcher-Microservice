@@ -5,6 +5,7 @@ services:
     build:
       context: ./
       dockerfile: ./Dockerfile
+    container_name: microservice
     restart: on-failure
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/admin
@@ -25,22 +26,33 @@ services:
     volumes:
       - db:/var/lib/postgresql/data
 
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+      - kong-database
+
   kong-database:
     image: postgres:13
+    container_name: kong-db
     environment:
       POSTGRES_USER: kong
       POSTGRES_DB: kong
       POSTGRES_PASSWORD: kongpass
     ports:
       - 5432:5432
-    networks:
-      - kong-net
 
   kong-migration:
     image: kong/kong-gateway:3.5.0.1
     command: "kong migrations bootstrap"
-    networks:
-      - kong-net
+    container_name: kong-migration
     environment:
       KONG_DATABASE: postgres
       KONG_PG_HOST: kong-database
@@ -52,6 +64,7 @@ services:
   kong-gateway:
     image: kong/kong-gateway:3.5.0.1
     restart: always
+    container_name: kong-gateway
     environment: 
       KONG_DATABASE: postgres
       KONG_PG_HOST: kong-database
@@ -72,13 +85,18 @@ services:
       - 8443:8443
       - 8444:8444
       - 8445:8445
-    networks:
-      - kong-net
     depends_on:
       - kong-migration
+  kong-services-init:
+    build:
+      context: ./kong/
+      dockerfile: Dockerfile
+    container_name: services-init
+    restart: "no"
+    depends_on:
+      - kong-gateway
+
 volumes:
   db:
 
-networks:
-  kong-net:
       
