@@ -87,6 +87,7 @@ services:
       - 8445:8445
     depends_on:
       - kong-migration
+      
   kong-services-init:
     build:
       context: ./kong/
