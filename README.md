@@ -43,7 +43,7 @@ This Github repository contains a Springboot Microservice with a Postgres Databa
 3. If the build is a success, it should be indicated in your CLI. If it is successful, run this command to deploy it:
 
 ```
-docker-compose up
+docker-compose up -d --build
 ```
 
 3. 7 docker containers should now be running:
@@ -53,7 +53,7 @@ docker-compose up
     * `kong-db`: where a Postgres database is containerized and used by the Kong gateway
     * `kong-migration`: where a temporary Kong API Gateway runs the `kong migrations bootstrap` command to initialize the `kong-gateway` container
     * `pgadmin`: where a pgAdmin container is used to access both Postgres databases we have containerized.
-    * `service-init`: where a shell script runs to set up our `kong-gateway` container with all the services and routes needed to access our microservice.
+    * `service-init`: where a python script runs to set up our `kong-gateway` container with all the services and routes needed to access our microservice.
 
 4. The microservice is now running, ready for use and is connected to the Kong API Gateway.
 
@@ -61,14 +61,13 @@ docker-compose up
 
 ##### Microservice
 
-Using a web browser of your choosing, head to <http://localhost:8080/person/1>. You should have accessed a microservice endpoint, which should return the following JSON object:
-``` json
+Using a web browser of your choosing, head to <http://localhost:8080/person/1>. You should have accessed a microservice endpoint. Since the database it is accessing has not been populated yet, this endpoint will return the following with a 404 response:
+```json
 {
-    "id":1,
-    "firstName":"Therine",
-    "lastName":"Henderson",
-    "age":26,
-    "sex":"Female"
+    "timestamp": "{local time of response}",
+    "message": [
+        "The Person Object with id '1' does not exist in our records"
+    ]
 }
 ```
 
@@ -121,9 +120,17 @@ While we can access the microservice through the local host on port 8080, we wan
 
 Using a web browser of choice, head to <http://localhost:8002/default/services>. You should see a list of services under the `default` workspace and a service called `PeoplePerson-Get`. If you click on that item of the list then select the `Routes` tab, you should see a list of routes connected to the service and a route called `PeoplePerson-GetRoute`.
 
+## Populating our App Database
+
+In order to test our Microservice, we will need to populate the database it uses. Once all containers are up and running, run the following command:
+```
+docker exec -it db psql -U admin -d admin -f /tmp/Mock_data.sql
+```
+This will fill our `db` postgres database container with testing data with the file `/db/Mock_data.sql`.
+
 ## Testing the Microservice
 
-1. Import the Postman Collection provided as a .json file in this repository
+1. Import the Postman Collection provided as a .json file in the `postman` folder in this repository
 
 2. Send the request from the endpoint "Get Person by ID"
 
@@ -132,7 +139,7 @@ Using a web browser of choice, head to <http://localhost:8002/default/services>.
 ```json
 {
     "id": 1,
-    "firstName": "Therine",
+    "firstName": "Bob",
     "lastName": "Henderson",
     "age": 26,
     "sex": "Female"

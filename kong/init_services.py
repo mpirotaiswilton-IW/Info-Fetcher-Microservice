@@ -20,6 +20,10 @@ services = [
     # "TestService|https://www.google.com/"
 ]
 
+# routes var is a List of Lists of Routes
+# each element in routes should match a service defined in 
+# a corresponding services var element 
+
 routes = [
     [
         Route(  "PeoplePerson-GetRoute",

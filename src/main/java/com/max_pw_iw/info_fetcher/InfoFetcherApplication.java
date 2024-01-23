@@ -26,17 +26,15 @@ public class InfoFetcherApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
-		List<Person> people = new ArrayList<Person>();
+		// List<Person> people = new ArrayList<Person>();
 
-		ClassLoader classLoader = getClass().getClassLoader();
+		// try (Scanner scanner = new Scanner(new File("/opt/app/data/Mock_data.csv"))) {
+		// 	while (scanner.hasNextLine()) {
+		// 		people.add(getPersonFromLine(scanner.nextLine()));
+		// 	}
+		// }
 
-		try (Scanner scanner = new Scanner(new File("/opt/app/data/Mock_data.csv"))) {
-			while (scanner.hasNextLine()) {
-				people.add(getPersonFromLine(scanner.nextLine()));
-			}
-		}
-
-		personRepository.saveAll(people);
+		// personRepository.saveAll(people);
 	}
 
 
