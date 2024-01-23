@@ -17,7 +17,7 @@ services:
     depends_on:
       - db
   db:
-    image: 'postgres:13.1-alpine'
+    image: postgres:13.1-alpine
     restart: always
     container_name: db
     environment:
@@ -40,7 +40,7 @@ services:
       - kong-database
 
   kong-database:
-    image: postgres:13
+    image: postgres:13.1-alpine
     container_name: kong-db
     environment:
       POSTGRES_USER: kong
@@ -86,6 +86,7 @@ services:
       - 8444:8444
       - 8445:8445
     depends_on:
+      - kong-database
       - kong-migration
 
   kong-services-init:
@@ -95,6 +96,7 @@ services:
     container_name: services-init
     restart: "no"
     depends_on:
+      - kong-database
       - kong-gateway
 
 volumes:

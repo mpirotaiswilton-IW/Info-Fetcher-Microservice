@@ -1,11 +1,12 @@
-FROM curlimages/curl
+FROM python:3-alpine
 
-COPY init_services.sh /tmp/init_services.sh
+COPY init_services.py /tmp/init_services.py
 
 # WORKDIR /tmp
 
 USER root
-RUN chmod +x /tmp/init_services.sh
+RUN python -m pip install --upgrade pip
+RUN python -m pip install requests
 USER 1001
 
-ENTRYPOINT [ "/tmp/init_services.sh" ]
+ENTRYPOINT [ "python", "/tmp/init_services.py" ]
